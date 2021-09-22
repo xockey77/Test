@@ -88,8 +88,8 @@ class TableViewController: UITableViewController {
            response, error) in
             if let data = data {
                 do {
-                    //let string = try String(data: data, encoding: .windowsCP1251)
-                    //print(string!)
+                    let string = try String(data: data, encoding: .windowsCP1251)
+                    print(string!)
                     completion(.success(data))
                 } catch {
                     completion(.failure(error))
@@ -126,14 +126,6 @@ class TableViewController: UITableViewController {
             let parser = XMLParser(data: data)
             parser.delegate = self
             parser.parse()
-            //self.dayQty = self.curValues.count
-            //var text = ""
-            //for val in self.curValues {
-            //    text.append("\(val) \n")
-            //}
-            //print(text)
-            //print("--------------")
-            //print(self.curValues)
             self.tableView.reloadData()
         }
     }

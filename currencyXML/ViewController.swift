@@ -7,7 +7,7 @@
 
 import UIKit
 import UserNotifications
-import BackgroundTasks
+//import BackgroundTasks
 //var dayQty = 0
 //let recordKey = "Record"
 //let dictionaryKeys = Set<String>(["Nominal", "Value"])

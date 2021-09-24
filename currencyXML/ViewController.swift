@@ -23,19 +23,20 @@ import UserNotifications
 
 class TableViewController: UITableViewController {
 
+    static let shared = TableViewController()
     var currentValue: String?                // the current value for one of the keys in the dictionary
     var curValues: [String] = []
     var curValue = ""
     var elementName: String = String()
     var threshold = Double()
     
-    
+/*
     var dateFormater: DateFormatter = {
         let dateFormater = DateFormatter()
         dateFormater.dateFormat = "dd/MM/yyyy"
         return dateFormater
     }()
-
+*/
 /*
     func scheduleAppRefresh() {
        let request = BGAppRefreshTaskRequest(identifier: bgTaskIdentifier)
@@ -71,6 +72,7 @@ class TableViewController: UITableViewController {
        OperationQueue.addOperation(operation)
      }
 */
+    /*
     func fetchData(completion: @escaping (Result<Data, Error>) -> Void) {
         var urlComponents = URLComponents(string: "http://www.cbr.ru/scripts/XML_dynamic.asp")!
         
@@ -90,6 +92,12 @@ class TableViewController: UITableViewController {
                 do {
                     let string = try String(data: data, encoding: .windowsCP1251)
                     print(string!)
+                    //print(string!.split(separator: " "))
+                    /*for sent in string!.split(separator: " ") {
+                        if sent.contains("Date=") {
+                            print(sent)
+                        }
+                    }*/
                     completion(.success(data))
                 } catch {
                     completion(.failure(error))
@@ -98,7 +106,7 @@ class TableViewController: UITableViewController {
         }
         task.resume()
     }
-    
+    */
     override func viewDidLoad() {
         super.viewDidLoad()
         //Persistance.shared.threshold = 75.0
@@ -110,8 +118,8 @@ class TableViewController: UITableViewController {
             self.threshold = 80.0
             Persistance.shared.threshold = 80.0
         }
-       
-        fetchData { (result) in
+        let network = Network()
+        network.fetchData { (result) in
                 switch result {
                 case .success(let data):
                     self.updateUI(with: data)
@@ -127,6 +135,20 @@ class TableViewController: UITableViewController {
             parser.delegate = self
             parser.parse()
             self.tableView.reloadData()
+            
+            if let lastCurrVal = Double(self.curValues[self.curValues.count - 1].replacingOccurrences(of: ",", with: ".", options: .literal, range: nil)) {
+                print(lastCurrVal)
+                if lastCurrVal > self.threshold {
+                    let center = UNUserNotificationCenter.current()
+                    let content = UNMutableNotificationContent()
+                    content.title = "Рубль рухнул!"
+                    content.body = "Курс доллара превысил заданное пороговое значение!"
+                    content.sound = UNNotificationSound.default
+                    let trigger  = UNTimeIntervalNotificationTrigger(timeInterval: 10, repeats: false)
+                    let request = UNNotificationRequest(identifier: "ThresholdNotification", content: content, trigger: trigger)
+                    center.add(request)
+                }
+            }
         }
     }
     

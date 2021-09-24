@@ -19,11 +19,16 @@ class EditorController: UITableViewController {
         }
     }
     
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         let threshold = Persistance.shared.threshold
         thresholdText.text = "\(threshold!)"
+        thresholdText.delegate = self
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -100,3 +105,21 @@ class EditorController: UITableViewController {
     */
 
 }
+
+extension EditorController: UITextFieldDelegate {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        
+        if string.isNumber || (string == "." && !textField.text!.contains(".") && textField.text! != "") || string == "\n" {
+            return true
+        }
+        return false
+    }
+}
+
+
+extension String {
+    var isNumber: Bool {
+        return !isEmpty && rangeOfCharacter(from: CharacterSet.decimalDigits.inverted) == nil
+    }
+}
+

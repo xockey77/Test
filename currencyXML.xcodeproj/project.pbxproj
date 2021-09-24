@@ -15,6 +15,7 @@
 		3D514E0026F875E5007FDF63 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3D514DFF26F875E5007FDF63 /* Assets.xcassets */; };
 		3D514E0326F875E5007FDF63 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3D514E0126F875E5007FDF63 /* LaunchScreen.storyboard */; };
 		3D514E2726F9F1EF007FDF63 /* Persistance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D514E2626F9F1EF007FDF63 /* Persistance.swift */; };
+		3DA4BD1B26FDAE43001FF89D /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA4BD1A26FDAE43001FF89D /* Network.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +48,7 @@
 		3D514E0926F875E5007FDF63 /* currencyXMLTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = currencyXMLTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3D514E1426F875E5007FDF63 /* currencyXMLUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = currencyXMLUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3D514E2626F9F1EF007FDF63 /* Persistance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistance.swift; sourceTree = "<group>"; };
+		3DA4BD1A26FDAE43001FF89D /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,6 +100,7 @@
 				3D514DF626F875E4007FDF63 /* AppDelegate.swift */,
 				3D514DF826F875E4007FDF63 /* SceneDelegate.swift */,
 				3D514DFA26F875E4007FDF63 /* ViewController.swift */,
+				3DA4BD1A26FDAE43001FF89D /* Network.swift */,
 				3D514DFC26F875E4007FDF63 /* Main.storyboard */,
 				3D04350226FB3741004DEFCA /* EditorController.swift */,
 				3D514DFF26F875E5007FDF63 /* Assets.xcassets */,
@@ -243,6 +246,7 @@
 				3D04350326FB3741004DEFCA /* EditorController.swift in Sources */,
 				3D514DF726F875E4007FDF63 /* AppDelegate.swift in Sources */,
 				3D514DF926F875E4007FDF63 /* SceneDelegate.swift in Sources */,
+				3DA4BD1B26FDAE43001FF89D /* Network.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -2,7 +2,7 @@
 //  Nethwork.swift
 //  currencyXML
 //
-//  Created by username on 24.09.2021.
+//  Created by username on 20.09.2021.
 //
 
 import Foundation
@@ -33,13 +33,6 @@ class Network {
             if let data = data {
                 do {
                     let string = try String(data: data, encoding: .windowsCP1251)
-                    print(string!)
-                    //print(string!.split(separator: " "))
-                    /*for sent in string!.split(separator: " ") {
-                        if sent.contains("Date=") {
-                            print(sent)
-                        }
-                    }*/
                     completion(.success(data))
                 } catch {
                     completion(.failure(error))

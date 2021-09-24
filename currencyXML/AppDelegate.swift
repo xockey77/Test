@@ -10,8 +10,6 @@ import UserNotifications
 import BackgroundTasks
 import os
 
-//let bgTaskIdentifier = "com.AndreyBelov.DollarFeed.refresh"
-
 var operationQueue = OperationQueue()
 
 @main
@@ -26,25 +24,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func scheduleAppRefresh() {
         os_log("scheduleAppRefresh exetued.")
        let request = BGAppRefreshTaskRequest(identifier: "com.AndreyBelov.DollarFeed.refresh")
-       // Fetch no earlier than 12 hours from now.
        request.earliestBeginDate = Date(timeIntervalSinceNow: 600)
        do {
           try BGTaskScheduler.shared.submit(request)
-        print("scheduleAppRefresh")
        } catch {
           print("Could not schedule app refresh: \(error)")
        }
     }
    
     func handleAppRefresh(task: BGAppRefreshTask) {
-       // Schedule a new refresh task.
-        print("handleAppRefresh")
-       scheduleAppRefresh()
 
-       // Create an operation that performs the main part of the background task.
-       let operation = RefreshAppContentsOperation()/////////////////////////////////////////////////////////////////////////////////
-        //print("operation = RefreshAppContentsOperation()")
-    
+        scheduleAppRefresh()
+        let operation = RefreshAppContentsOperation() //TODO засунуть получение данных в operation, пока без нее
         let network = Network()
         network.fetchData { (result) in
                 switch result {
@@ -56,31 +47,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     print(error)
                 }
         }
-       // Provide the background task with an expiration handler that cancels the operation.
-       task.expirationHandler = {
+        task.expirationHandler = {
           operation.cancel()
-       }
+        }
 
-       // Inform the system that the background task is complete
-       // when the operation completes.
-        
-       operation.completionBlock = {
-          task.setTaskCompleted(success: !operation.isCancelled)
-            print("BG!!!!!")
-           /*
-           let content = UNMutableNotificationContent()
-           content.title = "Рубль рухнул!"
-           content.body = "Курс доллара превысил заданное пороговое значение!"
-           content.sound = UNNotificationSound.default
-           let trigger  = UNTimeIntervalNotificationTrigger(timeInterval: 10, repeats: false)
-           let request = UNNotificationRequest(identifier: "ThresholdNotification", content: content, trigger: trigger)
-           let center = UNUserNotificationCenter.current()
-           center.add(request)*/
-       }
-
-       // Start the operation.
-       operationQueue.addOperation(operation)
-     }
+        operation.completionBlock = {
+           task.setTaskCompleted(success: !operation.isCancelled)
+           os_log("Background task is complete!)")
+        }
+        operationQueue.addOperation(operation)
+    }
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         window = UIWindow.init()
@@ -93,7 +69,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
 
         let center = UNUserNotificationCenter.current()
-        center.requestAuthorization(options: [.alert, .sound, .badge], completionHandler: { (granted, error) in
+        center.requestAuthorization(options: [.alert, .sound], completionHandler: { (granted, error) in
             if granted {
                 os_log("Разрешение на отправку уведомлений получено!")
             } else {

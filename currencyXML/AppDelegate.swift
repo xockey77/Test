@@ -24,7 +24,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func scheduleAppRefresh() {
         os_log("scheduleAppRefresh exetued.")
        let request = BGAppRefreshTaskRequest(identifier: "com.AndreyBelov.DollarFeed.refresh")
-       request.earliestBeginDate = Date(timeIntervalSinceNow: 600)
+       request.earliestBeginDate = Date(timeIntervalSinceNow: 12 * 60 * 60) //раз в 12 часов
        do {
           try BGTaskScheduler.shared.submit(request)
        } catch {
